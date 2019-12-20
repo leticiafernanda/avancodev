@@ -1,0 +1,52 @@
+<table class="table">
+    <thead>
+    <tr>
+      <td>Nome</td>
+      <td>Descrição</td>
+      <td>Preço</td>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let item of items"> 
+      <td>{{item.Nome }}</td> 
+      <td>${{item.Descrição}}</td> 
+      <td>${{item.Preço}}</td> 
+      <td>
+        <button class="btn btn-secondary"
+                (click)="addToCart()"
+                [disabled]="!isAuthenticated()">
+          Inclua ao carrinho.
+        </button>
+      </td>
+    </tr>
+    </tbody>
+  </table>
+  <div *ngIf="isAdmin()">
+    <h3 class="col-md-12">Incluindo um novo produto</h3>
+    <form class="form-inline" (submit)="addNewItem()" [formGroup]="itemForm">
+      <div class="col-auto">
+        <input type="text"
+               class="form-control"
+               placeholder="Name"
+               formControlName="name"
+               [ngClass]="{ 'is-invalid': itemSubmitted && getItemForm.name.errors }" >
+        <div *ngIf="itemSubmitted && getItemForm.name.errors" class="invalid-feedback">
+          <div *ngIf="getItemForm.name.errors.required">Campo obrigatório.</div>
+        </div>
+      </div>
+      <div class="col-auto">
+        <input type="number"
+               class="form-control"
+               placeholder="Price"
+               formControlName="price"
+               [ngClass]="{ 'is-invalid': itemSubmitted && getItemForm.price.errors }" >
+        <div *ngIf="itemSubmitted && getItemForm.price.errors" class="invalid-feedback">
+          <div *ngIf="getItemForm.price.errors.required">Compo obrigatório.</div>
+          <div *ngIf="getItemForm.price.errors.min">Deve-se começar com 0</div>
+        </div>
+      </div>
+      <div class="col-auto">
+        <button type="submit" class="btn btn-primary mb-2">Novo Produto!</button>
+      </div>
+    </form>
+  </div>
